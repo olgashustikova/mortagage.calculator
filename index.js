@@ -65,28 +65,34 @@ function processingTemplateMortagagePreview(templateRoot, availableMortagage) {
     templateRoot.removeChild(templateRoot.lastElementChild)
   }
   var clon = temp.content.cloneNode(true)
+
   var resultDiv = clon.querySelector('.input-group-result')
-  resultDiv.innerHTML = 'Your mortgage limit is ' + availableMortagage
+  if (availableMortagage <= 0) {
+    resultDiv.innerHTML = 'Mortagage is not available'
+  } else {
+    resultDiv.innerHTML = 'Your mortgage limit is ' + availableMortagage
+  }
+
   clon.querySelector('#fixedProcentFiveYears').innerHTML =
     config.fixedFiveYears + '% fixed for 5 years'
 
   clon.querySelector('#fixedProcentResultFiveYears').innerHTML =
-    '$' + calculateMonthlyProcent(availableMortagage, config.fixedFiveYears)
+    calculateMonthlyProcent(availableMortagage, config.fixedFiveYears)
 
   clon.querySelector('#variableProcent').innerHTML =
     config.variable + '% variable'
   clon.querySelector('#variableProcentResult').innerHTML =
-    '$' + calculateMonthlyProcent(availableMortagage, config.variable)
+    calculateMonthlyProcent(availableMortagage, config.variable)
 
   clon.querySelector('#fixedProcentThreeYears').innerHTML =
     config.fixedThreeYears + '% fixed for 3 years'
   clon.querySelector('#fixedProcentResultThreeYears').innerHTML =
-    '$' + calculateMonthlyProcent(availableMortagage, config.fixedThreeYears)
+    calculateMonthlyProcent(availableMortagage, config.fixedThreeYears)
 
   clon.querySelector('#fixedProcentTenYears').innerHTML =
     config.fixedTenYears + '% fixed for 10 years'
   clon.querySelector('#fixedProcentResultTenYears').innerHTML =
-    '$' + calculateMonthlyProcent(availableMortagage, config.fixedTenYears)
+    calculateMonthlyProcent(availableMortagage, config.fixedTenYears)
 
   templateRoot.appendChild(clon)
 }
@@ -95,5 +101,8 @@ function calculateMonthlyProcent(result, percent) {
   var intermediateMortagage = result / (30 * 12)
   var interResult = (result * percent) / 100 / 12
   var interMainresult = intermediateMortagage + interResult
-  return Math.round(interMainresult)
+  if (interMainresult <= 0) {
+    return 'N/A'
+  }
+  return '$' + Math.round(interMainresult)
 }
