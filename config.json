@@ -1,0 +1,8 @@
+{
+    "minDownpaymentPercent": 10,
+    "salaryMultiplier": 6,
+    "fixedFiveYears": 2.5,
+    "variable": 1.5,
+    "fixedThreeYears": 2,
+    "fixedTenYears": 3
+}
